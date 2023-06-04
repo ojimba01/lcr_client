@@ -9,7 +9,7 @@ RUN npm install
 COPY frontend .
 RUN npm run build
 
-EXPOSE 5173
-CMD ["npm", "run", "dev"]
+ENV PORT=5173
+EXPOSE $PORT
 
-
+CMD ["npm", "run", "serve"]
