@@ -3,7 +3,7 @@ import { getDatabase, ref, get } from "firebase/database";
 import { auth } from './firebase';
 
 
-const API_BASE_URL = "lcrserver-production.up.railway.app";
+const API_BASE_URL = "https://lcrserver-production.up.railway.app";
 
 
 interface Player {
