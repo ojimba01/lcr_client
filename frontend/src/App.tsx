@@ -23,31 +23,11 @@ const theme = extendTheme({
   },
 });
 
-const Card = ({ children }) => {
-  return (
-    <Flex
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      p={5}
-      shadow="md"
-      borderWidth="1px"
-      borderRadius="md"
-      width={['90%', '80%', '70%', '60%', '50%']} // For responsive design
-      height="50%"
-      mx="auto" // For centering horizontally
-    >
-      {children}
-    </Flex>
-  );
-};
 
 const HowToPlayWrapper = () => {
   // use the How to Play component here with the Card component
   return (
-    // <Card>
       <HowToPlay />
-    //  </Card> 
   );
 }
 
@@ -149,7 +129,6 @@ function AppContent() {
           w="100%"
           textAlign="center"
         >
-          {/* <Route path="/how-to-play" component={HowToPlay} /> */}
   
           <Heading fontSize="4xl">Welcome to LCR Online!</Heading>
           <Text mt={8} fontSize={"xl"}>
