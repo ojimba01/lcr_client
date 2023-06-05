@@ -8,7 +8,7 @@ import Navigation from './components/Navigation';
 import { BrowserRouter as Router, Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './components/AuthProvider';
 import Login from './components/Login';
-import { Flex, Button, ButtonGroup, Heading, Text } from '@chakra-ui/react';
+import { Flex, Button, ButtonGroup, Heading, Text, Box } from '@chakra-ui/react';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import HowToPlay from './components/HowToPlay';
 
@@ -125,7 +125,6 @@ function AppContent() {
       <Login />
     );
   };
-  
   const HomeWrapper = () => {
     const { user } = useAuth();
     if (!user) {
@@ -138,29 +137,35 @@ function AppContent() {
         alignItems="center"
         justifyContent="center"
         p={5}
-        shadow="md"
-        borderWidth="1px"
-        borderRadius="md"
         width={['90%', '80%', '70%', '60%', '50%']} // For responsive design
         height="55%"
         mx="auto" // For centering horizontally
       >
-        {/* <Route path="/how-to-play" component={HowToPlay} /> */}
-
-        <Heading fontSize="4xl">Welcome to LCR Online!</Heading>
-        <Text mt={8} fontSize={"xl"}>
-          LCR, or Left Center Right, is a fun, fast-paced dice game that you won't be able to put down!
-          Each game includes three LCR specialty dice, 24 chips and instructions.
-          Players roll the dice to determine where they pass their chips. The last player with chips is the winner and wins the center pot.
-        </Text>
-        <ButtonGroup variant="outline" spacing="6" mt={5}>
-          <Button as={Link} to="/create" colorScheme="teal">
-            Create Game
-          </Button>
-          <Button as={Link} to="/join" colorScheme="green">
-            Join Game
-          </Button>
-        </ButtonGroup>
+        <Box
+          shadow="md"
+          borderWidth="1px"
+          borderRadius="md"
+          p={5}
+          w="100%"
+          textAlign="center"
+        >
+          {/* <Route path="/how-to-play" component={HowToPlay} /> */}
+  
+          <Heading fontSize="4xl">Welcome to LCR Online!</Heading>
+          <Text mt={8} fontSize={"xl"}>
+            LCR, or Left Center Right, is a fun, fast-paced dice game that you won't be able to put down!
+            Each game includes three LCR specialty dice, 24 chips and instructions.
+            Players roll the dice to determine where they pass their chips. The last player with chips is the winner and wins the center pot.
+          </Text>
+          <ButtonGroup variant="outline" spacing="6" mt={5}>
+            <Button as={Link} to="/create" colorScheme="teal">
+              Create Game
+            </Button>
+            <Button as={Link} to="/join" colorScheme="green">
+              Join Game
+            </Button>
+          </ButtonGroup>
+        </Box>
       </Flex>
     );
   };

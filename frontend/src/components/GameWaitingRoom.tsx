@@ -90,13 +90,14 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
       direction="column"
       alignItems="center"
       justifyContent="center"
-      p={5}
+      p={8}
       shadow="md"
       borderWidth="1px"
       borderRadius="md"
       width={['90%', '80%', '70%', '60%', '50%']} // For responsive design
-      height="50%"
+      // height={['90%', '80%', '70%', '60%', '50%']}
       mx="auto" // For centering horizontally
+      my="auto" // For centering vertically
     >
       <Heading mb={4}>Game Waiting Room</Heading>
       <Text mb={2}>Lobby Code: {game.LobbyCode}</Text>
@@ -113,7 +114,7 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
         </Button>
       )}
       {game.Players?.map((player: Player) => (
-        <Box key={player.Name} p={5} shadow="md" borderWidth="1px" borderRadius="md" w="100%" mt={4}>
+        <Box key={player.Name} p={1} shadow="md" borderWidth="1px" borderRadius="md" w="100%" mt={4}>
           <Text>{player.Name}: {player.LobbyStatus ? 'Ready' : 'Not Ready'}</Text>
           {player.UserID === auth.currentUser?.uid && !player.LobbyStatus && (
             <Button colorScheme="green" onClick={() => handleReadyUp(player.Name)} mt={2}>Ready Up</Button>

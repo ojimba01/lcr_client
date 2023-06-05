@@ -1,7 +1,7 @@
 // Navigation.tsx
 import { Box, Button, Flex, IconButton, Link, Text, useDisclosure } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
-import {QuestionIcon, ArrowForwardIcon } from '@chakra-ui/icons';
+import {QuestionIcon } from '@chakra-ui/icons';
 import { useAuth } from './AuthProvider';
 import { Link as RouterLink } from 'react-router-dom';
 import SideBar from './SideBar.tsx';
@@ -30,7 +30,7 @@ const Navigation = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Flex as="nav" bg="teal.500" color="white" align="center" justify="space-between" padding="1.5rem" position="fixed" top="0" w="100vw" zIndex="1" mb={4}>
+    <Flex as="nav" bg="teal.500" color="white" align="center" justify="space-between" padding=".5rem" position="fixed" top="0" w="100vw" zIndex="1" mb={4}>
       <Flex>
         <IconButton 
           aria-label="Open menu" 
