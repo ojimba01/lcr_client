@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerOverlay, Link, VStack } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
-import { AddIcon, ExternalLinkIcon, ArrowForwardIcon, UnlockIcon } from '@chakra-ui/icons';
+import { AddIcon, ExternalLinkIcon, ArrowForwardIcon, UnlockIcon, QuestionIcon } from '@chakra-ui/icons';
 
 
 function AuthenticatedLinks() {
@@ -19,6 +19,7 @@ function AuthenticatedLinks() {
 
   return (
     <VStack spacing="1rem" align="start">
+      {user && <Link as={RouterLink} to="/how-to-play"><QuestionIcon mr={2}/>How To Play</Link>}
       {user && <Link as={RouterLink} to="/create"><AddIcon mr={2} />Create Game</Link>}
       {user && <Link as={RouterLink} to="/join"><ExternalLinkIcon mr={2} />Join Game</Link>}
       {user && <Button onClick={handleLogout}><ArrowForwardIcon mr={2} />Logout</Button>}

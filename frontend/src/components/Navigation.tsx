@@ -21,8 +21,8 @@ function AuthenticatedLinks() {
 
   return (
     <>
-      {user && <Link as={RouterLink} to="/how-to-play"><QuestionIcon mr={2} />How To Play</Link>}
-      {user && <Button onClick={handleLogout}><ArrowForwardIcon mr={2} />Logout</Button>}
+      {user && <Button as={RouterLink} to="/how-to-play" mr={2} ><QuestionIcon mr={2}/>How To Play</Button>}
+      {user && <Button onClick={handleLogout} ml={4} mr={6}>Logout</Button>}
     </>
   );
 }
@@ -30,7 +30,7 @@ const Navigation = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Flex as="nav" bg="teal.500" color="white" align="center" justify="space-between" padding="1.5rem" position="fixed" top="0" w="100vw" zIndex="1">
+    <Flex as="nav" bg="teal.500" color="white" align="center" justify="space-between" padding="1.5rem" position="fixed" top="0" w="100vw" zIndex="1" mb={4}>
       <Flex>
         <IconButton 
           aria-label="Open menu" 

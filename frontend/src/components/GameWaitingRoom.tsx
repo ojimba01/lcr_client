@@ -4,7 +4,7 @@ import { auth } from '../firebase.ts'; // import from separate file
 import { database } from '../firebase.ts'; // import from separate file
 import { Game, Player } from '../LCR.ts'; // import from separate file
 import { lobbyReady } from '../api.ts'; // import from separate file
-import { Box, Button, Heading, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Heading, Text, Flex } from '@chakra-ui/react';
 
 interface GameWaitingRoomProps {
   gameID: string;
@@ -86,31 +86,41 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
   const readyPlayersCount = game.Players?.filter((player) => player.LobbyStatus).length || 0;
 
   return (
-    <VStack spacing={5} width="100%">
-      <Box p={5} shadow="md" borderWidth="1px" borderRadius="md" w="100%">
-        <Heading fontSize="xl">Game Waiting Room</Heading>
-        <Text>Lobby Code: {game.LobbyCode}</Text>
-        <Text>Number of Players: {game.Players?.length || 0}</Text>
-        <Text>Players Ready: {readyPlayersCount}/{game.Players?.length || 0}</Text>
-        {auth.currentUser?.uid && (
-          <Button
-            colorScheme="blue"
-            isDisabled={!game.Players || game.Players.length < 3 || !game.Players.every((player) => player.LobbyStatus)}
-            onClick={handleGameStart}
-          >
-            Start Game
-          </Button>
-        )}
-      </Box>
+    <Flex
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      p={5}
+      shadow="md"
+      borderWidth="1px"
+      borderRadius="md"
+      width={['90%', '80%', '70%', '60%', '50%']} // For responsive design
+      height="50%"
+      mx="auto" // For centering horizontally
+    >
+      <Heading mb={4}>Game Waiting Room</Heading>
+      <Text mb={2}>Lobby Code: {game.LobbyCode}</Text>
+      <Text mb={2}>Number of Players: {game.Players?.length || 0}</Text>
+      <Text mb={2}>Players Ready: {readyPlayersCount}/{game.Players?.length || 0}</Text>
+      {auth.currentUser?.uid && (
+        <Button
+          colorScheme="blue"
+          isDisabled={!game.Players || game.Players.length < 3 || !game.Players.every((player) => player.LobbyStatus)}
+          onClick={handleGameStart}
+          mt={4}
+        >
+          Start Game
+        </Button>
+      )}
       {game.Players?.map((player: Player) => (
-        <Box key={player.Name} p={5} shadow="md" borderWidth="1px" borderRadius="md" w="100%">
+        <Box key={player.Name} p={5} shadow="md" borderWidth="1px" borderRadius="md" w="100%" mt={4}>
           <Text>{player.Name}: {player.LobbyStatus ? 'Ready' : 'Not Ready'}</Text>
           {player.UserID === auth.currentUser?.uid && !player.LobbyStatus && (
-            <Button colorScheme="green" onClick={() => handleReadyUp(player.Name)}>Ready Up</Button>
+            <Button colorScheme="green" onClick={() => handleReadyUp(player.Name)} mt={2}>Ready Up</Button>
           )}
         </Box>
       ))}
-    </VStack>
+    </Flex>
   );
 };
 

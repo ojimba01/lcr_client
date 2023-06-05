@@ -10,6 +10,7 @@ import { AuthProvider, useAuth } from './components/AuthProvider';
 import Login from './components/Login';
 import { Flex, Button, ButtonGroup, Heading, Text } from '@chakra-ui/react';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import HowToPlay from './components/HowToPlay';
 
 const theme = extendTheme({
   styles: {
@@ -40,6 +41,15 @@ const Card = ({ children }) => {
     </Flex>
   );
 };
+
+const HowToPlayWrapper = () => {
+  // use the How to Play component here with the Card component
+  return (
+    // <Card>
+      <HowToPlay />
+    //  </Card> 
+  );
+}
 
 function App() {
   return (
@@ -115,6 +125,7 @@ function AppContent() {
       <Login />
     );
   };
+  
   const HomeWrapper = () => {
     const { user } = useAuth();
     if (!user) {
@@ -131,10 +142,12 @@ function AppContent() {
         borderWidth="1px"
         borderRadius="md"
         width={['90%', '80%', '70%', '60%', '50%']} // For responsive design
-        height="50%"
+        height="55%"
         mx="auto" // For centering horizontally
       >
-        <Heading fontSize="4xl">Welcome to LCR Online! (Left-Right-Center)</Heading>
+        {/* <Route path="/how-to-play" component={HowToPlay} /> */}
+
+        <Heading fontSize="4xl">Welcome to LCR Online!</Heading>
         <Text mt={8} fontSize={"xl"}>
           LCR, or Left Center Right, is a fun, fast-paced dice game that you won't be able to put down!
           Each game includes three LCR specialty dice, 24 chips and instructions.
@@ -176,6 +189,7 @@ function AppContent() {
                 element={<GameWaitingRoomWrapper />}
               />
               <Route path="/play/:lobbyCode" element={<GameScreenWrapper />} />
+              <Route path="/how-to-play" element={<HowToPlayWrapper />} />
             </>
           )}
         </Routes>
