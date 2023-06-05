@@ -14,7 +14,13 @@ RUN npm install -g serve
 
 # Note: Railway sets the PORT variable for you
 # But you can still set a default port to use when running the container locally
+
+
 ENV PORT=5173
+
+ARG VITE_FIREBASE_CREDENTIALS
+
+ENV VITE_FIREBASE_CREDENTIALS=$VITE_FIREBASE_CREDENTIALS
 
 
 CMD serve -s dist -l tcp://0.0.0.0:$PORT
