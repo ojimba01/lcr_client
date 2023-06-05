@@ -4,13 +4,17 @@ import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerOve
 import { Link as RouterLink } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
 import { AddIcon, ExternalLinkIcon, ArrowForwardIcon, UnlockIcon, QuestionIcon } from '@chakra-ui/icons';
+import { useNavigate } from 'react-router-dom';
 
 
-function AuthenticatedLinks() {
+function AuthenticatedLinks({onClose}) {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
+    navigate('/');
+    onClose();
   };
 
   if (user === null) {
@@ -34,7 +38,7 @@ const SideBar = ({ isOpen, onClose }) => {
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerBody>
-            <AuthenticatedLinks />
+            <AuthenticatedLinks onClose={onClose} />
           </DrawerBody>
         </DrawerContent>
       </DrawerOverlay>
