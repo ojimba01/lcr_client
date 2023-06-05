@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { auth, signIn, createUser } from '../firebase';
+import { Box, Heading, FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -24,15 +25,25 @@ const Login = () => {
   };
 
   return (
-    <div className='login'>
-      <h1>Login</h1>
+    <Box maxW="sm" margin="0 auto" mt={20} p={6} borderWidth={1} borderRadius="md" boxShadow="md">
+      <Heading mb={6} textAlign="center">Login</Heading>
       <form>
-        <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email'/>
-        <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
-        <button type='submit' onClick={loginUser}>Sign In</button>
-        <button onClick={register}>Register</button>
+        <FormControl mb={4}>
+          <FormLabel>Email</FormLabel>
+          <Input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
+        </FormControl>
+        <FormControl mb={4}>
+          <FormLabel>Password</FormLabel>
+          <Input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+        </FormControl>
+        <Button colorScheme="blue" onClick={loginUser} mr={2} mb={4} width="100%">
+          Sign In
+        </Button>
+        <Button onClick={register} variant="outline" width="100%">
+          Register
+        </Button>
       </form>
-    </div>
+    </Box>
   );
 }
 

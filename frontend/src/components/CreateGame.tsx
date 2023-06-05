@@ -1,3 +1,4 @@
+import { Box, Button, FormControl, FormLabel, Input, Text } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import { auth } from '../firebase';
 import { createGame } from '../api';
@@ -35,9 +36,7 @@ const CreateGame: React.FC<CreateGameProps> = ({ onGameCreated }) => {
 
       if (response.gameID) {
         console.log('Game created:', response.gameID, response.creator.Name, response.lobbyCode);
-        onGameCreated(response.gameID, response.lobbyCode, response.creator.Name, );
-
-      
+        onGameCreated(response.gameID, response.lobbyCode, response.creator.Name);
       } else {
         setErrorMessage('Failed to create the game. Please try again.' + response);
       }
@@ -48,16 +47,26 @@ const CreateGame: React.FC<CreateGameProps> = ({ onGameCreated }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Your Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <button type="submit">Create Game</button>
-      {errorMessage && <div>{errorMessage}</div>}
-    </form>
+    <Box as="form" p={5} borderRadius="md" boxShadow="md" onSubmit={handleSubmit}>
+      <FormControl id="name" mb={4}>
+        <FormLabel>Your Name</FormLabel>
+        <Input
+          type="text"
+          placeholder="Your Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          isRequired
+        />
+      </FormControl>
+      <Button type="submit" colorScheme="teal">
+        Create Game
+      </Button>
+      {errorMessage && (
+        <Text color="red.500" mt={4}>
+          {errorMessage}
+        </Text>
+      )}
+    </Box>
   );
 };
 

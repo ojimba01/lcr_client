@@ -24,5 +24,3 @@ export interface Player {
     Rolls: number[];
   }
   
-  // Define any other LCR-related interfaces here
-  

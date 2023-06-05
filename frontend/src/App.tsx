@@ -1,48 +1,58 @@
 import { useState, useEffect } from 'react';
 import { getGameIdByLobbyCode } from './api';
-import './App.css';
 import CreateGame from './components/CreateGame';
 import GameWaitingRoom from './components/GameWaitingRoom';
 import JoinGame from './components/JoinGame';
 import GameScreen from './components/GameScreen';
+import Navigation from './components/Navigation';
 import { BrowserRouter as Router, Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './components/AuthProvider';
-import { auth } from './firebase';
 import Login from './components/Login';
+import { Flex, Button, ButtonGroup, Heading, Text } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
-function AuthenticatedLinks() {
-  const { user, logout } = useAuth();
+const theme = extendTheme({
+  styles: {
+    global: {
+      body: {
+        margin: 0,
+        padding: 0,
+      },
+    },
+  },
+});
 
-  const handleLogout = () => {
-    logout();
-  };
-
-  if (user === null) {
-    return null; // or render a loading spinner or a placeholder
-  }
-
+const Card = ({ children }) => {
   return (
-    <>
-      {user && <Link to="/">Home</Link>}
-      {user && <Link to="/create">Create Game</Link>}
-      {user && <Link to="/join">Join Game</Link>}
-      {user && <button onClick={handleLogout}>Logout</button>}
-      {!user && <Link to="/login">Login</Link>}
-    </>
+    <Flex
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      p={5}
+      shadow="md"
+      borderWidth="1px"
+      borderRadius="md"
+      width={['90%', '80%', '70%', '60%', '50%']} // For responsive design
+      height="50%"
+      mx="auto" // For centering horizontally
+    >
+      {children}
+    </Flex>
   );
-}
+};
 
 function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <ChakraProvider theme={theme}>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </ChakraProvider>
   );
 }
 
 function AppContent() {
   const { user } = useAuth();
-  
   const GameWaitingRoomWrapper = () => {
     const { gameID, lobbyCode } = useParams();
     const navigate = useNavigate();
@@ -67,7 +77,7 @@ function AppContent() {
     }, [lobbyCode]);
 
     if (!gameID) {
-      return <div>Loading...</div>;
+      return <Text fontSize="1.2rem" color="#888" my={1}>Loading...</Text>;
     }
 
     return <GameScreen gameID={gameID} lobbyCode={lobbyCode} />;
@@ -95,15 +105,69 @@ function AppContent() {
 
     return <JoinGame onGameJoined={onGameJoined} />;
   };
+  const LoginWrapper = () => {
+    const { user } = useAuth();
+    const navigate = useNavigate()
+    if (user) {
+      navigate('/');
+    }
+    return (
+      <Login />
+    );
+  };
+  const HomeWrapper = () => {
+    const { user } = useAuth();
+    if (!user) {
+      // simply redirect to login page
+      return <LoginWrapper />;
+    }
+    return (
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        p={5}
+        shadow="md"
+        borderWidth="1px"
+        borderRadius="md"
+        width={['90%', '80%', '70%', '60%', '50%']} // For responsive design
+        height="50%"
+        mx="auto" // For centering horizontally
+      >
+        <Heading fontSize="4xl">Welcome to LCR Online! (Left-Right-Center)</Heading>
+        <Text mt={8} fontSize={"xl"}>
+          LCR, or Left Center Right, is a fun, fast-paced dice game that you won't be able to put down!
+          Each game includes three LCR specialty dice, 24 chips and instructions.
+          Players roll the dice to determine where they pass their chips. The last player with chips is the winner and wins the center pot.
+        </Text>
+        <ButtonGroup variant="outline" spacing="6" mt={5}>
+          <Button as={Link} to="/create" colorScheme="teal">
+            Create Game
+          </Button>
+          <Button as={Link} to="/join" colorScheme="green">
+            Join Game
+          </Button>
+        </ButtonGroup>
+      </Flex>
+    );
+  };
 
   return (
     <Router>
-      <div className="App">
-        <nav>
-          <AuthenticatedLinks />
-        </nav>
+      <Navigation />
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        textAlign="center"
+        width={['100vw', null ]}
+        height={['100vh', null]}
+        p={2}
+      >
         <Routes>
-          {user ? (
+          <Route path="/" element={<HomeWrapper />} />
+          <Route path="/login" element={<LoginWrapper />} />
+          {user && (
             <>
               <Route path="/create" element={<CreateGameWrapper />} />
               <Route path="/join" element={<JoinGameWrapper />} />
@@ -113,19 +177,9 @@ function AppContent() {
               />
               <Route path="/play/:lobbyCode" element={<GameScreenWrapper />} />
             </>
-          ) : (
-            <Route
-              path="/"
-              element={
-                <div>
-                  <Login />
-                  <div>Welcome to the home page!</div>
-                </div>
-              }
-            />
           )}
         </Routes>
-      </div>
+      </Flex>
     </Router>
   );
 }

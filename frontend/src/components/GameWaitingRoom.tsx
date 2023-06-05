@@ -4,6 +4,7 @@ import { auth } from '../firebase.ts'; // import from separate file
 import { database } from '../firebase.ts'; // import from separate file
 import { Game, Player } from '../LCR.ts'; // import from separate file
 import { lobbyReady } from '../api.ts'; // import from separate file
+import { Box, Button, Heading, Text, VStack } from '@chakra-ui/react';
 
 interface GameWaitingRoomProps {
   gameID: string;
@@ -71,49 +72,45 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
   };
 
   if (isLoading) {
-    return <div>Loading...</div>; // consider using a spinner or more user-friendly loading indication
+    return <Text>Loading...</Text>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <Text color="red.500">Error: {error}</Text>;
   }
 
   if (!game) {
-    console.log('Game not found', game);
-    return <div>Game not found</div>;
+    return <Text>Game not found</Text>;
   }
 
-  // Get the count of players who are ready
   const readyPlayersCount = game.Players?.filter((player) => player.LobbyStatus).length || 0;
 
   return (
-    <div>
-      <h2>Game Waiting Room</h2>
-      <p>Lobby Code: {game.LobbyCode}</p>
-      <p>Number of Players: {game.Players?.length || 0}</p>
-      <p>Players Ready: {readyPlayersCount}/{game.Players?.length || 0}</p>
+    <VStack spacing={5} width="100%">
+      <Box p={5} shadow="md" borderWidth="1px" borderRadius="md" w="100%">
+        <Heading fontSize="xl">Game Waiting Room</Heading>
+        <Text>Lobby Code: {game.LobbyCode}</Text>
+        <Text>Number of Players: {game.Players?.length || 0}</Text>
+        <Text>Players Ready: {readyPlayersCount}/{game.Players?.length || 0}</Text>
+        {auth.currentUser?.uid && (
+          <Button
+            colorScheme="blue"
+            isDisabled={!game.Players || game.Players.length < 3 || !game.Players.every((player) => player.LobbyStatus)}
+            onClick={handleGameStart}
+          >
+            Start Game
+          </Button>
+        )}
+      </Box>
       {game.Players?.map((player: Player) => (
-        <div key={player.Name}>
-          {player.UserID === auth.currentUser?.uid && (
-            <div>
-              <span>{player.Name}: {player.LobbyStatus ? 'Ready' : 'Not Ready'}</span>
-              {!player.LobbyStatus && (
-                <button onClick={() => handleReadyUp(player.Name)}>Ready Up</button>
-              )}
-            </div>
+        <Box key={player.Name} p={5} shadow="md" borderWidth="1px" borderRadius="md" w="100%">
+          <Text>{player.Name}: {player.LobbyStatus ? 'Ready' : 'Not Ready'}</Text>
+          {player.UserID === auth.currentUser?.uid && !player.LobbyStatus && (
+            <Button colorScheme="green" onClick={() => handleReadyUp(player.Name)}>Ready Up</Button>
           )}
-        </div>
+        </Box>
       ))}
-      {auth.currentUser?.uid && (
-        <button
-          disabled={!game.Players || game.Players.length < 3 || !game.Players.every((player) => player.LobbyStatus)}
-          onClick={handleGameStart}
-        >
-          Start Game
-        </button>
-      )}
-      <p>Other Game Data Here...</p>
-    </div>
+    </VStack>
   );
 };
 
