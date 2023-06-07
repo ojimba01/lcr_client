@@ -1,10 +1,10 @@
 import { Box, Button, FormControl, FormLabel, Input, Text } from '@chakra-ui/react';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import { auth } from '../firebase';
 import { createGame } from '../api';
-
+import { Player } from './LCR';
 interface CreateGameProps {
-  onGameCreated: (gameID: string | null, LobbyCode: string | null, name: string | null) => void;
+  onGameCreated: (gameID: string | null, lobbyCode: string | null, name: string | null) => void;
 }
 
 const CreateGame: React.FC<CreateGameProps> = ({ onGameCreated }) => {
@@ -18,7 +18,7 @@ const CreateGame: React.FC<CreateGameProps> = ({ onGameCreated }) => {
     }
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!name.trim()) {
@@ -29,9 +29,9 @@ const CreateGame: React.FC<CreateGameProps> = ({ onGameCreated }) => {
     try {
       localStorage.setItem('playerName', name);
 
-      const player = { Name: name, Chips: 3 };
+      const player: Player = { Name: name, Chips: 3 };
       console.log('CreateGame', player, auth.currentUser?.uid);
-      const response= await createGame([player]);
+      const response = await createGame([player]);
       console.log(response);
 
       if (response.gameID) {

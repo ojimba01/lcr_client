@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { auth, signIn, createUser } from '../firebase';
 import { Box, Heading, FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
 
-const Login = () => {
+const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginUser = async (event) => {
+  const loginUser = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
       await signIn(auth, email, password);
@@ -15,7 +15,7 @@ const Login = () => {
     }
   };
 
-  const register = async (event) => {
+  const register = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
       await createUser(auth, email, password);

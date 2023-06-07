@@ -4,8 +4,8 @@
 export interface Player {
     Name: string;
     Chips: number;
-    LobbyStatus: boolean;
-    UserID: string;
+    LobbyStatus?: boolean;
+    UserID?: string;
   }
   
   // Define game interface

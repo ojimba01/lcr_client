@@ -3,7 +3,7 @@ import { Box } from '@chakra-ui/react';
 import { takeTurn } from '../api';
 import { ref, onValue, DataSnapshot, off } from 'firebase/database';
 import { database } from '../firebase'; 
-import { Game, Player } from '../LCR'; // Import the interfaces
+import { Game, Player } from './LCR'; // Import the interfaces
 import { auth } from '../firebase';
 // import './GameScreen.css';
 import {  Text, Button, Spinner } from '@chakra-ui/react';
@@ -12,7 +12,22 @@ interface GameScreenProps {
   lobbyCode: string;
   gameID: string;
 }
-
+const interpretRoll = (roll: number) => {
+  switch (roll) {
+    case 1:
+    case 2:
+    case 3:
+      return '⚫'; // Output a dot (you may replace this with appropriate dice symbol)
+    case 4:
+      return 'L';
+    case 5:
+      return 'C';
+    case 6:
+      return 'R';
+    default:
+      return '';
+  }
+};
 const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
   const [game, setGame] = useState<Game | null>(null);
   const [isLoading, setLoading] = useState(true);
@@ -109,15 +124,15 @@ const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
         />
       ) : (
         <Text fontSize="lg">
-          It is {game.Players[game.Turn].Name}'s turn. The previous player rolled these dice numbers:  
-          {game.Dice.Rolls ? (
-            game.Dice.Rolls.map((roll: number, index: number) => (
-              <span key={index}>{roll} </span>
-            ))
-          ) : (
-            <span>No dice roll numbers available.</span>
-          )}
-        </Text>
+  It is {game.Players[game.Turn].Name}'s turn. The previous player rolled the following:
+  {game.Dice.Rolls ? (
+    game.Dice.Rolls.map((roll: number, index: number) => (
+      <span key={index}>{interpretRoll(roll)}</span>
+    ))
+  ) : (
+    <span>No dice roll available.</span>
+  )}
+</Text>
       )}
     </Box>
   );

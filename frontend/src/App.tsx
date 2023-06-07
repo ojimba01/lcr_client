@@ -25,7 +25,6 @@ const theme = extendTheme({
 
 
 const HowToPlayWrapper = () => {
-  // use the How to Play component here with the Card component
   return (
       <HowToPlay />
   );

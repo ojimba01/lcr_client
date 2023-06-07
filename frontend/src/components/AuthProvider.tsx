@@ -1,22 +1,28 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import { auth } from '../firebase';
 
-const AuthContext = createContext(null);
+interface AuthContextType {
+  user: string | null;
+  loading: boolean;
+  logout: () => Promise<void>;
+}
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+const AuthContext = createContext<AuthContextType | null>(null);
+
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
+      setUser(user ? user.uid : null);
       setLoading(false);
     });
 
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
 
-  const logout = async () => {
+  const logout = async (): Promise<void> => {
     try {
       await auth.signOut();
     } catch (error) {
@@ -24,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const value = { user, loading, logout };
+  const value: AuthContextType = { user, loading, logout };
 
   return (
     <AuthContext.Provider value={value}>
@@ -33,6 +39,10 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
+export const useAuth = (): AuthContextType => {
+  const authContext = useContext(AuthContext);
+  if (!authContext) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return authContext;
 };

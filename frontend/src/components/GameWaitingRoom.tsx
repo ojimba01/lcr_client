@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { ref, onValue, off, get, update } from 'firebase/database';
-import { auth } from '../firebase.ts'; // import from separate file
-import { database } from '../firebase.ts'; // import from separate file
-import { Game, Player } from '../LCR.ts'; // import from separate file
-import { lobbyReady } from '../api.ts'; // import from separate file
+import { auth } from '../firebase'; // import from separate file
+import { database } from '../firebase'; // import from separate file
+import { Game, Player } from './LCR'; // import from separate file
+import { lobbyReady } from '../api'; // import from separate file
 import { Box, Button, Heading, Text, Flex } from '@chakra-ui/react';
 
 interface GameWaitingRoomProps {
@@ -27,7 +27,7 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
         const initialGame = snapshot.val();
         setGame(initialGame);
         setLoading(false);
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error fetching game:', err);
         setLoading(false);
         setError(err.message);
@@ -53,7 +53,7 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
   const handleReadyUp = async (name: string) => {
     try {
       await lobbyReady(game.LobbyCode, name);
-    } catch (error) {
+    } catch (error: any) {
       setError(error.message);
     }
   };
@@ -63,7 +63,7 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
       try {
         // Push the game start status to your database
         await update(ref(database, `games/${gameID}`), { isGameStarted: true });
-      } catch (error) {
+      } catch (error: any) {
         setError(error.message);
       }
     } else {

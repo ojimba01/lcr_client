@@ -1,8 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
-import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword} from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 
-let firebaseConfig;
+let firebaseConfig: any;
 if (import.meta.env.VITE_FIREBASE_CREDENTIALS) {
   firebaseConfig = JSON.parse(import.meta.env.VITE_FIREBASE_CREDENTIALS);
 } else {
