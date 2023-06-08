@@ -3,8 +3,10 @@ FROM node:latest AS frontend
 
 # Define a build argument for the Firebase credentials
 ARG VITE_FIREBASE_CREDENTIALS
+ARG VITE_BOT_USER_ID
 # Set the environment variable
 ENV VITE_FIREBASE_CREDENTIALS=${VITE_FIREBASE_CREDENTIALS}
+ENV VITE_BOT_USER_ID=${VITE_BOT_USER_ID}
 
 WORKDIR /app/frontend
 
