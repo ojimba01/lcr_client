@@ -3,8 +3,15 @@ import { getDatabase, ref, get } from "firebase/database";
 import { auth } from './firebase';
 
 
-const API_BASE_URL = "https://lcrserver-production.up.railway.app";
-// const API_BASE_URL = "http://127.0.0.1:3000";
+// const API_BASE_URL = "https://lcrserver-production.up.railway.app";
+const API_BASE_URL = "http://127.0.0.1:3000";
+
+let BOT_USER_ID: string;
+if (import.meta.env.VITE_BOT_USER_ID) {
+  BOT_USER_ID = import.meta.env.VITE_BOT_USER_ID;
+} else {
+  throw new Error("VITE_BOT_USER_ID is not provided.");
+}
 
 
 interface Player {
@@ -63,6 +70,21 @@ export async function joinGame(lobbyCode: string, playerName: string) {
   try {
     const authToken = await auth.currentUser.getIdToken(/* forceRefresh */ true);
     const data = await postData(`${API_BASE_URL}/games/${lobbyCode}/join`, { Name: playerName }, authToken);
+    console.log('joinGame response:', data);
+    return data.gameID;
+  } catch (error) {
+    console.error('Error joining game:', error);
+    throw new Error('Failed to join the game. Please try again.');
+  } 
+}
+
+export async function addBotsToLobby(lobbyCode: string) {
+  if (!auth.currentUser) {
+    throw new Error('User not authenticated');
+  }
+  try {
+    const authToken = BOT_USER_ID
+    const data = await postData(`${API_BASE_URL}/games/${lobbyCode}/addBots`,{lobbyCode}, authToken);
     console.log('joinGame response:', data);
     return data.gameID;
   } catch (error) {
@@ -212,6 +234,21 @@ export async function lobbyReady(lobbyCode: string, name: string) {
   try {
     const authToken = await auth.currentUser.getIdToken(/* forceRefresh */ true);
     const response = await postData(`${API_BASE_URL}/games/${lobbyCode}/players/${name}/ready`, { lobbyCode, name }, authToken);
+    console.log('lobbyReady response:', response);
+    return response;
+  } catch (error) {
+    console.error('Error setting lobby status:', error);
+    throw error;
+  }
+}
+
+export async function botLobbyReady(lobbyCode: string) {
+  if (!auth.currentUser) {
+    throw new Error('User not authenticated');
+  }
+  try {
+    const authToken = BOT_USER_ID
+    const response = await postData(`${API_BASE_URL}/games/${lobbyCode}/setBotsReady`, { lobbyCode }, authToken);
     console.log('lobbyReady response:', response);
     return response;
   } catch (error) {

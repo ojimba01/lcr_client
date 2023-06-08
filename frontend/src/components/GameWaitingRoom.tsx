@@ -3,7 +3,7 @@ import { ref, onValue, off, get, update } from 'firebase/database';
 import { auth } from '../firebase'; // import from separate file
 import { database } from '../firebase'; // import from separate file
 import { Game, Player } from './LCR'; // import from separate file
-import { lobbyReady } from '../api'; // import from separate file
+import { lobbyReady, botLobbyReady } from '../api'; // import from separate file
 import { Box, Button, Heading, Text, Flex } from '@chakra-ui/react';
 
 interface GameWaitingRoomProps {
@@ -52,11 +52,21 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
 
   const handleReadyUp = async (name: string) => {
     try {
-      await lobbyReady(game.LobbyCode, name);
+      // Check if the bot is in the game
+      const botIsInGame = game.Players.some(player => player.UserID === '3XW4LgX0jMeo6mwTU9NrE0a2rYN2');
+  
+      // If the bot is in the game, set all players to ready. Otherwise, just set the current player to ready.
+      if (botIsInGame) {
+        await botLobbyReady(lobbyCode);
+      } else {
+        console.log('Bot', gameID, lobbyCode, name);
+      }
     } catch (error: any) {
       setError(error.message);
     }
   };
+  
+  
 
   const handleGameStart = async () => {
     if (game?.Players?.every((player) => player.LobbyStatus)) {

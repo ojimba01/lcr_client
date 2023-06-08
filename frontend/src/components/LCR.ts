@@ -15,7 +15,7 @@ export interface Player {
     Turn: number;
     Dice: Dice;
     // Optional Winner property
-    Winner?: Player["Name"];
+    Winner?: Winner;
     LobbyCode: string;
   }
 
@@ -23,4 +23,13 @@ export interface Player {
     Sides: number;
     Rolls: number[];
   }
+
+  export interface Winner {
+    Name: string;
+    Chips: number;
+    LobbyStatus: boolean;
+    UserID: string;
+  }
+
+
   

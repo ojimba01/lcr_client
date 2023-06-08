@@ -8,16 +8,24 @@ import { auth } from '../firebase';
 // import './GameScreen.css';
 import {  Text, Button, Spinner } from '@chakra-ui/react';
 
+let BOT_USER_ID: string;
+if (import.meta.env.VITE_BOT_USER_ID) {
+  BOT_USER_ID = import.meta.env.VITE_BOT_USER_ID;
+} else {
+  throw new Error("VITE_BOT_USER_ID is not provided.");
+}
+
 interface GameScreenProps {
   lobbyCode: string;
   gameID: string;
 }
+
 const interpretRoll = (roll: number) => {
   switch (roll) {
     case 1:
     case 2:
     case 3:
-      return '⚫'; // Output a dot (you may replace this with appropriate dice symbol)
+      return '⚫';
     case 4:
       return 'L';
     case 5:
@@ -28,9 +36,22 @@ const interpretRoll = (roll: number) => {
       return '';
   }
 };
+
 const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
   const [game, setGame] = useState<Game | null>(null);
   const [isLoading, setLoading] = useState(true);
+  const [isRolling, setIsRolling] = useState(false);
+
+  const handleTakeTurn = async () => {
+    try {
+      setIsRolling(true);
+      await takeTurn(gameID);
+      setIsRolling(false);
+    } catch (err) {
+      console.error('Error taking turn:', err);
+      setIsRolling(false);
+    }
+  };
 
   useEffect(() => {
     const gameRef = ref(database, `games/${gameID}`);
@@ -48,20 +69,26 @@ const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
     };
   }, [lobbyCode, gameID]);
 
-  const [isRolling, setIsRolling] = useState(false);
-
-  const handleTakeTurn = async () => {
-      try {
-        setIsRolling(true);
-        await takeTurn(gameID);
-        setIsRolling(false);
-      } catch (err) {
-        console.error('Error taking turn:', err);
-        setIsRolling(false);
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout | null = null;
+  
+    const currentPlayer = game?.Players[game?.Turn || 0];
+    const isCurrentPlayerTurn = currentPlayer?.UserID === auth.currentUser?.uid;
+    const botIsInGame = game?.Players.some(player => player.UserID === BOT_USER_ID) || false;
+    const isGameFinished = Boolean(game?.Winner);
+  
+    if (!isCurrentPlayerTurn && botIsInGame && !isGameFinished) {
+      intervalId = setInterval(() => {
+        handleTakeTurn();
+      }, 2000);
+    }
+  
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
       }
     };
-  
-
+  }, [game, handleTakeTurn]);
   if (isLoading) {
     return <Box>Loading...</Box>;
   }
@@ -72,7 +99,7 @@ const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
 
   const currentPlayer = game.Players[game.Turn];
   const isCurrentPlayerTurn = currentPlayer.UserID === auth.currentUser?.uid;
-  const isButtonDisabled = !isCurrentPlayerTurn;
+  const isButtonDisabled = !isCurrentPlayerTurn || Boolean(game.Winner); // Disable the button if there's a Winner
 
   return (
     <Box
@@ -81,7 +108,7 @@ const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
       m="auto"
       p={5}
       borderRadius="md"
-      bg="gray.100"
+      bg="gray.50"
       boxShadow="md"
     >
       <Text fontSize="2xl" fontWeight="bold" color="gray.700">
@@ -90,6 +117,11 @@ const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
       <Text fontSize="lg" color="gray.600">
         Pot: {game.Pot}
       </Text>
+      {game.Winner && (
+        <Text fontSize="lg" color="green.500">
+          Winner: {game.Winner.Name}
+        </Text>
+      )}
       {game.Players.map((player: Player, index: number) => (
         <Box
           p={2}

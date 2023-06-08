@@ -5,6 +5,7 @@ import GameWaitingRoom from './components/GameWaitingRoom';
 import JoinGame from './components/JoinGame';
 import GameScreen from './components/GameScreen';
 import Navigation from './components/Navigation';
+import Demo from './components/Demo';
 import { BrowserRouter as Router, Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './components/AuthProvider';
 import Login from './components/Login';
@@ -84,6 +85,18 @@ function AppContent() {
     return <CreateGame onGameCreated={onGameCreated} />;
   };
 
+  const DemoGameWrapper = () => {
+    const navigate = useNavigate();
+    const onGameCreated = (gameID: string | null, LobbyCode: string | null) => {
+      console.log("onGameCreated: ", gameID, LobbyCode); // Added logging here
+      if (gameID && LobbyCode) {
+        navigate(`/game/${gameID}/${LobbyCode}/waiting`);
+      }
+    };
+
+    return <Demo onGameCreated={onGameCreated} />;
+  };
+
   const JoinGameWrapper = () => {
     const navigate = useNavigate();
     const onGameJoined = async (gameID: string, LobbyCode: string) => {
@@ -144,6 +157,12 @@ function AppContent() {
             </Button>
           </ButtonGroup>
         </Box>
+        <Text fontSize="md" color="gray.600" mt={5}>
+        Don't have any friends to play with? All good! Run the demo and play with bots!
+      </Text>
+      <Button as={Link} variant="outline" to="/demo" colorScheme="blue" mt={5}>
+        Demo
+      </Button>
       </Flex>
     );
   };
@@ -167,6 +186,7 @@ function AppContent() {
             <>
               <Route path="/create" element={<CreateGameWrapper />} />
               <Route path="/join" element={<JoinGameWrapper />} />
+              <Route path="/demo" element={<DemoGameWrapper />} />
               <Route
                 path="/game/:gameID/:lobbyCode/waiting"
                 element={<GameWaitingRoomWrapper />}
