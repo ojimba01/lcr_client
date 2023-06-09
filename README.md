@@ -58,4 +58,25 @@ The application should now be running on http://localhost:5173 Open this address
 
 Note: This tutorial assumes that the backend is also running locally aswell. Please follow the directions to run the backend locally [here](https://github.com/ojimba01/lcr_server/).
 
+## Running the Project Locally with Docker
+
+This project includes a Dockerfile for running the application within a Docker container. Docker offers a way to run applications securely isolated in a container, packaged with all its dependencies and libraries.
+
+Before proceeding, ensure that you have Docker installed on your machine.
+
+Follow the steps below to run the project locally:
+
+1. Clone the project from GitHub.
+   ```sh
+   git clone https://github.com/ojimba01/lcr_client.git
+2. Navigate to the project directory.
+   ```sh
+   cd lcr_client
+   
+3. Build the Docker image. Replace <FIREBASE_CREDENTIALS> and <BOT_USER_ID> with your actual Firebase credentials and bot user ID. This will build the Docker image with your provided arguments and tag it as lcr_client.
+   ```sh
+   docker build . --build-arg VITE_FIREBASE_CREDENTIALS=<FIREBASE_CREDENTIALS> --build-arg VITE_BOT_USER_ID=<BOT_USER_ID> -t lcr_client
+4. Run the Docker image in a container.
+   ```sh
+   docker run -p 5173:5173 lcr_client
 
