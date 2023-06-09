@@ -1,4 +1,4 @@
-# `lcr_client` Project README
+# LCR Frontend
 
 ## Description
 
