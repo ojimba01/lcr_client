@@ -2,7 +2,7 @@
 
 ## Description
 
-`lcr_client` is a frontend project aimed at providing a user interface for interacting with the LCR (Left, Center, Right) game. The project is built using modern JavaScript frameworks and tools, ensuring an efficient and responsive user experience.
+`lcr_client` is a frontend project aimed at providing a user interface for interacting with the LCR (Left, Center, Right) game. The project is built using TypeScript, React, Vite, and other frameworks/libraries, ensuring an efficient and responsive user experience.
 
 ## Project Directory Structure
 
