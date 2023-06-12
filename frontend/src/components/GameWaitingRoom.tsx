@@ -61,6 +61,12 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
       } else {
         console.log('Bot', gameID, lobbyCode, name);
       }
+      try {
+        await lobbyReady(game.LobbyCode, name);
+      } catch (error: any) {
+        setError(error.message);
+      }
+      // ready
     } catch (error: any) {
       setError(error.message);
     }
