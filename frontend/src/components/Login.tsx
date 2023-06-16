@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { auth, signIn, createUser } from '../firebase';
+import { auth, signIn, createUser, signInAnon } from '../firebase';
 import { Box, Heading, FormControl, FormLabel, Input, Button, Text } from '@chakra-ui/react';
 import { set } from 'firebase/database';
 
@@ -66,6 +66,17 @@ const Login: React.FC = () => {
     setError(errorMessage);
     }
   };
+  const guestLogin = async () => {
+    signInAnon(auth)
+      .then(() => {
+        console.log('Guest login successful');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error('Guest login failed', errorCode, errorMessage);
+      });
+  };
 
   return (
     <Box maxW={['sm', 'md', 'lg', '2xl']} margin="0 auto" mt={20} p={6} borderWidth={1} borderRadius="md" boxShadow="md">
@@ -92,6 +103,9 @@ const Login: React.FC = () => {
         </Button>
         <Button onClick={register} variant="outline" width="100%">
           Register
+        </Button>
+        <Button onClick={guestLogin} variant="outline" colorScheme="gray" width="100%" mt={4}>
+          Guest
         </Button>
       </form>
     </Box>
