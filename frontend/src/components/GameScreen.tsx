@@ -3,7 +3,7 @@ import { Box } from '@chakra-ui/react';
 import { takeTurn } from '../api';
 import { ref, onValue, DataSnapshot, off } from 'firebase/database';
 import { database } from '../firebase'; 
-import { Game, Player } from './LCR'; // Import the interfaces
+import { Game, Player } from './lcr'; // Import the interfaces
 import { auth } from '../firebase';
 // import './GameScreen.css';
 import {  Text, Button, Spinner } from '@chakra-ui/react';

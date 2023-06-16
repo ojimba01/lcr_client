@@ -3,8 +3,8 @@ import { getDatabase, ref, get } from "firebase/database";
 import { auth } from './firebase';
 
 
-const API_BASE_URL = "https://lcrserver-production.up.railway.app";
-// const API_BASE_URL = "http://127.0.0.1:3000";
+// const API_BASE_URL = "https://lcrserver-production.up.railway.app";
+const API_BASE_URL = "http://127.0.0.1:3000";
 
 let BOT_USER_ID: string;
 if (import.meta.env.VITE_BOT_USER_ID) {
@@ -153,7 +153,7 @@ export async function getAvailableGames() {
   }
 
   try {
-    const data = await getData(`${API_BASE_URL}/available-games`, authToken);
+    const data = await getData(`${API_BASE_URL}/availableGames`, authToken);
     return data.games;
   } catch (error) {
     console.error('Error getting available games:', error);

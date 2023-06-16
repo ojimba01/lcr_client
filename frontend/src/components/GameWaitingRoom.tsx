@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ref, onValue, off, get, update } from 'firebase/database';
 import { auth } from '../firebase'; // import from separate file
 import { database } from '../firebase'; // import from separate file
-import { Game, Player } from './LCR'; // import from separate file
+import { Game, Player } from './lcr'; // import from separate file
 import { lobbyReady, botLobbyReady } from '../api'; // import from separate file
 import { Box, Button, Heading, Text, Flex } from '@chakra-ui/react';
 

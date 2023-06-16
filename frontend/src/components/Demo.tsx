@@ -2,7 +2,7 @@ import { Box, Button, FormControl, FormLabel, Input, Text } from '@chakra-ui/rea
 import React, { useState, useEffect, FormEvent } from 'react';
 import { auth } from '../firebase';
 import { createGame, addBotsToLobby } from '../api';
-import { Player } from './LCR';
+import { Player } from './lcr';
 interface CreateGameProps {
   onGameCreated: (gameID: string | null, lobbyCode: string | null, name: string | null) => void;
 }
