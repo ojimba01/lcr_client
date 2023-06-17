@@ -13,7 +13,7 @@ export const TitleHeader: React.FC = () => {
         <img
           src={TitleIcon}
           alt="Dice Icon"
-          style={{ width: "24px", height: "24px" }}
+          style={{ width: "36px", height: "36px" }}
         />
       </Box>
       <Box>
