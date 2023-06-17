@@ -1,4 +1,4 @@
-// import React from "react";
+import React from "react";
 import {
   Button,
   Drawer,
@@ -7,6 +7,7 @@ import {
   DrawerContent,
   DrawerOverlay,
   VStack,
+  Text,
 } from "@chakra-ui/react";
 import { useAuth } from "./AuthProvider";
 import {
@@ -28,7 +29,11 @@ function AuthenticatedLinks({ onClose }: { onClose: () => void }) {
   };
 
   if (user === null) {
-    return null; // or render a loading spinner or a placeholder
+    return (
+      <VStack spacing="1rem" align="start">
+        <Text p={"4"}>Please log in to access menu items.</Text>
+      </VStack>
+    );
   }
 
   const handleClick = (path) => {
@@ -38,7 +43,6 @@ function AuthenticatedLinks({ onClose }: { onClose: () => void }) {
 
   return (
     <VStack spacing="1rem" align="start">
-      {/* {user && <HowToPlay onClose={onClose} />} */}
       {user && (
         <Button onClick={() => handleClick("/create")} leftIcon={<AddIcon />}>
           Create Game
@@ -80,5 +84,3 @@ export const SideBar = ({ isOpen, onClose }) => {
     </Drawer>
   );
 };
-
-// create question mark icon how to play

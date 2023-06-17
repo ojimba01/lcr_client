@@ -37,6 +37,21 @@ function AuthenticatedLinks() {
   );
 }
 
+function HowToPlayWrapper() {
+  const auth = useAuth();
+  const user = auth?.user; // Add a conditional check
+
+  const handleLogout = () => {
+    auth.logout();
+  };
+
+  if (!user) {
+    return null; // or render a loading spinner or a placeholder
+  }
+
+  return <>{user && <HowToPlay />}</>;
+}
+
 const Navigation: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -88,7 +103,7 @@ const Navigation: React.FC = () => {
       </Box>
       <SideBar isOpen={isOpen} onClose={onClose} />
       <Box display={{ base: "block", md: "none" }}>
-        <HowToPlay />
+        <HowToPlayWrapper />
       </Box>
     </Flex>
   );
