@@ -106,6 +106,7 @@ const Login: React.FC = () => {
       borderRadius="md"
       boxShadow="md"
     >
+      {/* <TitleHeader /> */}
       <Heading mb={6} textAlign="center">
         Login
       </Heading>

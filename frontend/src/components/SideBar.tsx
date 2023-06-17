@@ -14,10 +14,8 @@ import {
   ExternalLinkIcon,
   ArrowForwardIcon,
   UnlockIcon,
-  QuestionIcon,
 } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
-import HowToPlay from "./HowToPlay";
 
 function AuthenticatedLinks({ onClose }: { onClose: () => void }) {
   const { user, logout } = useAuth();

@@ -7,13 +7,13 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { HamburgerIcon, QuestionIcon } from "@chakra-ui/icons";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthProvider";
 import { Link as RouterLink } from "react-router-dom";
 import { SideBar } from "./SideBar";
 import HowToPlay from "./HowToPlay";
 
-function AuthenticatedLinks({ onClose }: { onClose: () => void }) {
+function AuthenticatedLinks() {
   const auth = useAuth();
   const user = auth?.user; // Add a conditional check
 
@@ -84,7 +84,7 @@ const Navigation: React.FC = () => {
         </Link>
       </Flex>
       <Box display={{ base: "none", md: "flex" }}>
-        <AuthenticatedLinks onClose={onClose} />
+        <AuthenticatedLinks />
       </Box>
       <SideBar isOpen={isOpen} onClose={onClose} />
       <Box display={{ base: "block", md: "none" }}>

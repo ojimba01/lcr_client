@@ -23,9 +23,10 @@ import {
   Heading,
   Text,
   Box,
+  Container,
 } from "@chakra-ui/react";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
-import HowToPlay from "./components/HowToPlay";
+import { TitleHeader } from "./components/Title";
 
 const theme = extendTheme({
   styles: {
@@ -130,8 +131,16 @@ function AppContent() {
     if (user) {
       navigate("/");
     }
-    return <Login />;
+    return (
+      <>
+        <TitleHeader />
+        <Container mt={2}>
+          <Login />
+        </Container>
+      </>
+    );
   };
+
   const HomeWrapper = () => {
     const { user } = useAuth();
     if (!user) {
