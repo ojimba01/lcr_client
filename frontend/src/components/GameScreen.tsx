@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Box } from '@chakra-ui/react';
 import { takeTurn } from '../api';
 import { ref, onValue, DataSnapshot, off } from 'firebase/database';
@@ -42,16 +42,20 @@ const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
   const [isLoading, setLoading] = useState(true);
   const [isRolling, setIsRolling] = useState(false);
 
-  const handleTakeTurn = async () => {
+  const [lastTurn, setLastTurn] = useState(Date.now());
+
+  const handleTakeTurn = useCallback(async () => {
     try {
       setIsRolling(true);
       await takeTurn(gameID);
       setIsRolling(false);
+      // Update the state variable after the turn
+      setLastTurn(Date.now());
     } catch (err) {
       console.error('Error taking turn:', err);
       setIsRolling(false);
     }
-  };
+  }, [gameID]);
 
   useEffect(() => {
     const gameRef = ref(database, `games/${gameID}`);
@@ -136,6 +140,7 @@ const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
       ))}
       
       <Button 
+        key={lastTurn}
         onClick={handleTakeTurn} 
         isDisabled={isButtonDisabled} 
         w="100%" 
@@ -159,11 +164,14 @@ const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
   It is {game.Players[game.Turn].Name}'s turn. The previous player rolled the following:
   {game.Dice.Rolls ? (
     game.Dice.Rolls.map((roll: number, index: number) => (
-      <span key={index}>{interpretRoll(roll)}</span>
+      <React.Fragment key={index}>
+        {interpretRoll(roll)}
+        {index < game.Dice.Rolls.length - 1 ? ', ' : ''}
+      </React.Fragment>
     ))
-  ) : (
+) : (
     <span>No dice roll available.</span>
-  )}
+)}
 </Text>
       )}
     </Box>
