@@ -150,7 +150,8 @@ const Login: React.FC = () => {
           </Text>
         )}
         <Button
-          colorScheme="blue"
+          bg="teal.500"
+          colorScheme="white"
           onClick={loginUser}
           mr={2}
           mb={4}
