@@ -134,7 +134,7 @@ function AppContent() {
     return (
       <>
         <TitleHeader />
-        <Container mt={2}>
+        <Container>
           <Login />
         </Container>
       </>
