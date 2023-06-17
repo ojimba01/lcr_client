@@ -38,10 +38,6 @@ const theme = extendTheme({
   },
 });
 
-const HowToPlayWrapper = () => {
-  return <HowToPlay />;
-};
-
 function App() {
   return (
     <ChakraProvider theme={theme}>
@@ -215,7 +211,6 @@ function AppContent() {
                 element={<GameWaitingRoomWrapper />}
               />
               <Route path="/play/:lobbyCode" element={<GameScreenWrapper />} />
-              <Route path="/how-to-play" element={<HowToPlayWrapper />} />
             </>
           )}
         </Routes>

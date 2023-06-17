@@ -10,9 +10,10 @@ import {
 import { HamburgerIcon, QuestionIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthProvider";
 import { Link as RouterLink } from "react-router-dom";
-import SideBar from "./SideBar";
+import { SideBar } from "./SideBar";
+import HowToPlay from "./HowToPlay";
 
-function AuthenticatedLinks() {
+function AuthenticatedLinks({ onClose }: { onClose: () => void }) {
   const auth = useAuth();
   const user = auth?.user; // Add a conditional check
 
@@ -26,12 +27,7 @@ function AuthenticatedLinks() {
 
   return (
     <>
-      {user && (
-        <Button as={RouterLink} to="/how-to-play" mr={2}>
-          <QuestionIcon mr={2} />
-          How To Play
-        </Button>
-      )}
+      {user && <HowToPlay />}
       {user && (
         <Button onClick={handleLogout} ml={4} mr={6}>
           Logout
@@ -88,9 +84,12 @@ const Navigation: React.FC = () => {
         </Link>
       </Flex>
       <Box display={{ base: "none", md: "flex" }}>
-        <AuthenticatedLinks />
+        <AuthenticatedLinks onClose={onClose} />
       </Box>
       <SideBar isOpen={isOpen} onClose={onClose} />
+      <Box display={{ base: "block", md: "none" }}>
+        <HowToPlay />
+      </Box>
     </Flex>
   );
 };

@@ -1,5 +1,4 @@
-// SideBar.tsx
-import React from "react";
+// import React from "react";
 import {
   Button,
   Drawer,
@@ -18,8 +17,9 @@ import {
   QuestionIcon,
 } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import HowToPlay from "./HowToPlay";
 
-function AuthenticatedLinks({ onClose }) {
+function AuthenticatedLinks({ onClose }: { onClose: () => void }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -35,19 +35,12 @@ function AuthenticatedLinks({ onClose }) {
 
   const handleClick = (path) => {
     navigate(path);
-    onClose();
+    onClose(); // Close the sidebar immediately after clicking a button
   };
 
   return (
     <VStack spacing="1rem" align="start">
-      {user && (
-        <Button
-          onClick={() => handleClick("/how-to-play")}
-          leftIcon={<QuestionIcon />}
-        >
-          How To Play
-        </Button>
-      )}
+      {/* {user && <HowToPlay onClose={onClose} />} */}
       {user && (
         <Button onClick={() => handleClick("/create")} leftIcon={<AddIcon />}>
           Create Game
@@ -75,7 +68,7 @@ function AuthenticatedLinks({ onClose }) {
   );
 }
 
-const SideBar = ({ isOpen, onClose }) => {
+export const SideBar = ({ isOpen, onClose }) => {
   return (
     <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
       <DrawerOverlay>
@@ -90,4 +83,4 @@ const SideBar = ({ isOpen, onClose }) => {
   );
 };
 
-export default SideBar;
+// create question mark icon how to play
