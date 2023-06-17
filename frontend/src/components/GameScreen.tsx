@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Box } from '@chakra-ui/react';
-import { takeTurn } from '../api';
-import { ref, onValue, DataSnapshot, off } from 'firebase/database';
-import { database } from '../firebase'; 
-import { Game, Player } from './lcr'; // Import the interfaces
-import { auth } from '../firebase';
+import React, { useEffect, useState, useCallback } from "react";
+import { Box } from "@chakra-ui/react";
+import { takeTurn } from "../api";
+import { ref, onValue, DataSnapshot, off } from "firebase/database";
+import { database } from "../firebase";
+import { Game, Player } from "./lcr"; // Import the interfaces
+import { auth } from "../firebase";
 // import './GameScreen.css';
-import {  Text, Button, Spinner } from '@chakra-ui/react';
+import { Text, Button, Spinner } from "@chakra-ui/react";
 
 let BOT_USER_ID: string;
 if (import.meta.env.VITE_BOT_USER_ID) {
@@ -25,15 +25,15 @@ const interpretRoll = (roll: number) => {
     case 1:
     case 2:
     case 3:
-      return '⚫';
+      return "⚫";
     case 4:
-      return 'L';
+      return "L";
     case 5:
-      return 'C';
+      return "C";
     case 6:
-      return 'R';
+      return "R";
     default:
-      return '';
+      return "";
   }
 };
 
@@ -52,7 +52,7 @@ const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
       // Update the state variable after the turn
       setLastTurn(Date.now());
     } catch (err) {
-      console.error('Error taking turn:', err);
+      console.error("Error taking turn:", err);
       setIsRolling(false);
     }
   }, [gameID]);
@@ -69,24 +69,25 @@ const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
     onValue(gameRef, handleDataChange);
 
     return () => {
-      off(gameRef, 'value', handleDataChange);
+      off(gameRef, "value", handleDataChange);
     };
   }, [lobbyCode, gameID]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null;
-  
+
     const currentPlayer = game?.Players[game?.Turn || 0];
     const isCurrentPlayerTurn = currentPlayer?.UserID === auth.currentUser?.uid;
-    const botIsInGame = game?.Players.some(player => player.UserID === BOT_USER_ID) || false;
+    const botIsInGame =
+      game?.Players.some((player) => player.UserID === BOT_USER_ID) || false;
     const isGameFinished = Boolean(game?.Winner);
-  
+
     if (!isCurrentPlayerTurn && botIsInGame && !isGameFinished) {
       intervalId = setInterval(() => {
         handleTakeTurn();
       }, 2000);
     }
-  
+
     return () => {
       if (intervalId) {
         clearInterval(intervalId);
@@ -131,48 +132,44 @@ const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
           p={2}
           mb={5}
           borderRadius="md"
-          bg={game.Turn === index ? 'green.100' : 'transparent'}
+          bg={game.Turn === index ? "green.100" : "transparent"}
           key={index}
         >
           <Text fontSize="lg">Name: {player.Name}</Text>
           <Text fontSize="lg">Chips: {player.Chips}</Text>
         </Box>
       ))}
-      
-      <Button 
+
+      <Button
         key={lastTurn}
-        onClick={handleTakeTurn} 
-        isDisabled={isButtonDisabled} 
-        w="100%" 
-        py={2} 
-        mt={5} 
-        mb={2} 
-        colorScheme="teal" 
-        _disabled={{ bgColor: 'gray.300' }}
+        onClick={handleTakeTurn}
+        isDisabled={isButtonDisabled}
+        w="100%"
+        py={2}
+        mt={5}
+        mb={2}
+        colorScheme="teal"
+        _disabled={{ bgColor: "gray.300" }}
       >
         Take Turn
       </Button>
       {isRolling ? (
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          color="red.500"
-          size="xl"
-        />
+        <Spinner thickness="4px" speed="0.65s" color="red.500" size="xl" />
       ) : (
         <Text fontSize="lg">
-  It is {game.Players[game.Turn].Name}'s turn. The previous player rolled the following:
-  {game.Dice.Rolls ? (
-    game.Dice.Rolls.map((roll: number, index: number) => (
-      <React.Fragment key={index}>
-        {interpretRoll(roll)}
-        {index < game.Dice.Rolls.length - 1 ? ', ' : ''}
-      </React.Fragment>
-    ))
-) : (
-    <span>No dice roll available.</span>
-)}
-</Text>
+          It is {game.Players[game.Turn].Name}'s turn. The previous player
+          rolled the following:
+          {game.Dice.Rolls ? (
+            game.Dice.Rolls.map((roll: number, index: number) => (
+              <React.Fragment key={index}>
+                {interpretRoll(roll)}
+                {index < game.Dice.Rolls.length - 1 ? ", " : ""}
+              </React.Fragment>
+            ))
+          ) : (
+            <span>No dice roll available.</span>
+          )}
+        </Text>
       )}
     </Box>
   );

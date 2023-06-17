@@ -1,18 +1,29 @@
-import { Box, Button, FormControl, FormLabel, Input, Text } from '@chakra-ui/react';
-import React, { useState, useEffect, FormEvent } from 'react';
-import { auth } from '../firebase';
-import { createGame } from '../api';
-import { Player } from './lcr';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Text,
+} from "@chakra-ui/react";
+import React, { useState, useEffect, FormEvent } from "react";
+import { auth } from "../firebase";
+import { createGame } from "../api";
+import { Player } from "./lcr";
 interface CreateGameProps {
-  onGameCreated: (gameID: string | null, lobbyCode: string | null, name: string | null) => void;
+  onGameCreated: (
+    gameID: string | null,
+    lobbyCode: string | null,
+    name: string | null
+  ) => void;
 }
 
 const CreateGame: React.FC<CreateGameProps> = ({ onGameCreated }) => {
-  const [name, setName] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [name, setName] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useEffect(() => {
-    const playerName = localStorage.getItem('playerName');
+    const playerName = localStorage.getItem("playerName");
     if (playerName) {
       setName(playerName);
     }
@@ -22,32 +33,49 @@ const CreateGame: React.FC<CreateGameProps> = ({ onGameCreated }) => {
     e.preventDefault();
 
     if (!name.trim()) {
-      setErrorMessage('Please enter your name.');
+      setErrorMessage("Please enter your name.");
       return;
     }
 
     try {
-      localStorage.setItem('playerName', name);
+      localStorage.setItem("playerName", name);
 
       const player: Player = { Name: name, Chips: 3 };
-      console.log('CreateGame', player, auth.currentUser?.uid);
+      console.log("CreateGame", player, auth.currentUser?.uid);
       const response = await createGame([player]);
       console.log(response);
 
       if (response.gameID) {
-        console.log('Game created:', response.gameID, response.creator.Name, response.lobbyCode);
-        onGameCreated(response.gameID, response.lobbyCode, response.creator.Name);
+        console.log(
+          "Game created:",
+          response.gameID,
+          response.creator.Name,
+          response.lobbyCode
+        );
+        onGameCreated(
+          response.gameID,
+          response.lobbyCode,
+          response.creator.Name
+        );
       } else {
-        setErrorMessage('Failed to create the game. Please try again.' + response);
+        setErrorMessage(
+          "Failed to create the game. Please try again." + response
+        );
       }
     } catch (err) {
-      console.error('Error creating game:', err);
+      console.error("Error creating game:", err);
       onGameCreated(null, null, null);
     }
   };
 
   return (
-    <Box as="form" p={5} borderRadius="md" boxShadow="md" onSubmit={handleSubmit}>
+    <Box
+      as="form"
+      p={5}
+      borderRadius="md"
+      boxShadow="md"
+      onSubmit={handleSubmit}
+    >
       <FormControl id="name" mb={4}>
         <FormLabel>Your Name</FormLabel>
         <Input

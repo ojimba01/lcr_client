@@ -1,9 +1,23 @@
 // SideBar.tsx
-import React from 'react';
-import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerOverlay, VStack } from '@chakra-ui/react';
-import { useAuth } from './AuthProvider';
-import { AddIcon, ExternalLinkIcon, ArrowForwardIcon, UnlockIcon, QuestionIcon } from '@chakra-ui/icons';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import {
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerOverlay,
+  VStack,
+} from "@chakra-ui/react";
+import { useAuth } from "./AuthProvider";
+import {
+  AddIcon,
+  ExternalLinkIcon,
+  ArrowForwardIcon,
+  UnlockIcon,
+  QuestionIcon,
+} from "@chakra-ui/icons";
+import { useNavigate } from "react-router-dom";
 
 function AuthenticatedLinks({ onClose }) {
   const { user, logout } = useAuth();
@@ -11,7 +25,7 @@ function AuthenticatedLinks({ onClose }) {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
     onClose();
   };
 
@@ -26,11 +40,37 @@ function AuthenticatedLinks({ onClose }) {
 
   return (
     <VStack spacing="1rem" align="start">
-      {user && <Button onClick={() => handleClick("/how-to-play")} leftIcon={<QuestionIcon/>}>How To Play</Button>}
-      {user && <Button onClick={() => handleClick("/create")} leftIcon={<AddIcon />}>Create Game</Button>}
-      {user && <Button onClick={() => handleClick("/join")} leftIcon={<ExternalLinkIcon />}>Join Game</Button>}
-      {user && <Button onClick={handleLogout} leftIcon={<ArrowForwardIcon />}>Logout</Button>}
-      {!user && <Button onClick={() => handleClick("/login")} leftIcon={<UnlockIcon />}>Login</Button>}
+      {user && (
+        <Button
+          onClick={() => handleClick("/how-to-play")}
+          leftIcon={<QuestionIcon />}
+        >
+          How To Play
+        </Button>
+      )}
+      {user && (
+        <Button onClick={() => handleClick("/create")} leftIcon={<AddIcon />}>
+          Create Game
+        </Button>
+      )}
+      {user && (
+        <Button
+          onClick={() => handleClick("/join")}
+          leftIcon={<ExternalLinkIcon />}
+        >
+          Join Game
+        </Button>
+      )}
+      {user && (
+        <Button onClick={handleLogout} leftIcon={<ArrowForwardIcon />}>
+          Logout
+        </Button>
+      )}
+      {!user && (
+        <Button onClick={() => handleClick("/login")} leftIcon={<UnlockIcon />}>
+          Login
+        </Button>
+      )}
     </VStack>
   );
 }
