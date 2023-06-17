@@ -160,9 +160,11 @@ function AppContent() {
         <Text fontSize="md" color="gray.600" mt={5}>
         Don't have any friends to play with? All good! Run the demo and play with bots!
       </Text>
-      <Button as={Link} variant="outline" to="/demo" colorScheme="blue" mt={5}>
+        <ButtonGroup variant="outline" spacing="6" mt={5}>
+          <Button as={Link} variant="outline" to="/demo" colorScheme="blue">
         Demo
-      </Button>
+          </Button>
+        </ButtonGroup>
       </Flex>
     );
   };
