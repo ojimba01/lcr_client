@@ -148,7 +148,7 @@ function AppContent() {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        height="75vh" // This will make sure the container takes the full height of the viewport
+        height="65vh" // This will make sure the container takes the full height of the viewport
       >
         <TitleHeader />
         <Login />
