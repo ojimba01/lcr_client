@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getGameIdByLobbyCode } from "./api";
 import CreateGame from "./components/CreateGame";
 import GameWaitingRoom from "./components/GameWaitingRoom";
@@ -23,8 +23,6 @@ import {
   Heading,
   Text,
   Box,
-  Container,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { TitleHeader } from "./components/Title";
@@ -52,7 +50,15 @@ function App() {
 
 function AppContent() {
   const { user } = useAuth();
-  const isMobileView = useMediaQuery("(max-width: 550px)");
+  const [navHeight, setNavHeight] = useState(0);
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    if (navRef.current) {
+      setNavHeight(navRef.current.offsetHeight);
+    }
+  }, []);
+
   const GameWaitingRoomWrapper = () => {
     const { gameID, lobbyCode } = useParams();
     const navigate = useNavigate();
@@ -138,12 +144,15 @@ function AppContent() {
     }, [user, navigate]);
 
     return (
-      <>
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        height="75vh" // This will make sure the container takes the full height of the viewport
+      >
         <TitleHeader />
-        <Container>
-          <Login />
-        </Container>
-      </>
+        <Login />
+      </Flex>
     );
   };
 
@@ -163,7 +172,9 @@ function AppContent() {
         height="70%"
         mx="auto" // For centering horizontally
       >
-        <TitleHeader />
+        <Box marginTop={`${navHeight}px`}>
+          <TitleHeader />
+        </Box>
 
         <Box
           shadow="md"
@@ -208,7 +219,7 @@ function AppContent() {
 
   return (
     <Router>
-      <Navigation />
+      <Navigation navRef={navRef} />
       <Flex
         direction="column"
         alignItems="center"
@@ -216,9 +227,6 @@ function AppContent() {
         // textAlign="center"
         align="center"
         width={["100vw", null]}
-        height={["100vh", null]}
-        // p={2}
-        // pt={isMobileView ? "2.5rem" : 0}
       >
         <Routes>
           <Route path="/" element={<HomeWrapper />} />

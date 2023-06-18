@@ -8,6 +8,7 @@ export const TitleHeader: React.FC = () => {
       alignItems="center"
       justifyContent="center"
       flexWrap="wrap"
+      pt={2}
     >
       <Box mr={2}>
         <img

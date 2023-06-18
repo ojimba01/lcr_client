@@ -100,16 +100,13 @@ const Login: React.FC = () => {
     <Box
       maxW={["sm", "md", "lg", "2xl"]}
       margin="0 auto"
-      mt={20}
+      mt={8}
       p={6}
       borderWidth={1}
       borderRadius="md"
       boxShadow="md"
     >
-      {/* <TitleHeader /> */}
-      <Heading mb={6} textAlign="center">
-        Login
-      </Heading>
+      <Heading textAlign="center">Login</Heading>
       <form>
         <FormControl mb={4}>
           <InputGroup>

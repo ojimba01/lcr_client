@@ -6,7 +6,6 @@ import {
   Link,
   Text,
   useDisclosure,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthProvider";
@@ -49,7 +48,7 @@ function HowToPlayWrapper() {
   return <>{user && <HowToPlay />}</>;
 }
 
-const Navigation: React.FC = () => {
+const Navigation = ({ navRef }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -63,6 +62,8 @@ const Navigation: React.FC = () => {
       position="sticky"
       w="100vw"
       zIndex="1"
+      ref={navRef} // attach the ref here
+      mb={4} // Add a bottom margin
     >
       <Flex>
         <IconButton
