@@ -19,7 +19,7 @@ export const TitleHeader: React.FC = () => {
       <Box>
         <Heading as="h1" size="2xl" textAlign={{ base: "center", md: "left" }}>
           <Link href="https://github.com/ojimba01/lcr_client" fontWeight="bold">
-            LCR Online (v.1.0.1)
+            LCR Online
           </Link>
         </Heading>
       </Box>

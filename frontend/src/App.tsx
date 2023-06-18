@@ -52,7 +52,7 @@ function App() {
 
 function AppContent() {
   const { user } = useAuth();
-  const isMobileView = useMediaQuery("(max-width: 768px)");
+  const isMobileView = useMediaQuery("(max-width: 550px)");
   const GameWaitingRoomWrapper = () => {
     const { gameID, lobbyCode } = useParams();
     const navigate = useNavigate();
@@ -160,7 +160,7 @@ function AppContent() {
         justifyContent="center"
         p={5}
         width={["90%", "80%", "70%", "60%", "50%"]} // For responsive design
-        height="55%"
+        height="70%"
         mx="auto" // For centering horizontally
       >
         <TitleHeader />
@@ -213,11 +213,12 @@ function AppContent() {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        textAlign="center"
+        // textAlign="center"
+        align="center"
         width={["100vw", null]}
         height={["100vh", null]}
-        p={2}
-        pt={isMobileView ? "4rem" : 0}
+        // p={2}
+        // pt={isMobileView ? "2.5rem" : 0}
       >
         <Routes>
           <Route path="/" element={<HomeWrapper />} />

@@ -60,7 +60,7 @@ const Navigation: React.FC = () => {
       align="center"
       justify="space-between"
       padding=".5rem"
-      position="fixed"
+      position="sticky"
       w="100vw"
       zIndex="1"
     >
