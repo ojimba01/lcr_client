@@ -169,7 +169,7 @@ function AppContent() {
           shadow="md"
           borderWidth="1px"
           borderRadius="md"
-          mt={5}
+          mt={8}
           p={5}
           w="100%"
           textAlign="center"
