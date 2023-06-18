@@ -213,8 +213,7 @@ function AppContent() {
           w="100%"
           textAlign="center"
         >
-          <Heading fontSize="3xl">Welcome to LCR Online!</Heading>
-          <Text mt={8} fontSize={"xl"}>
+          <Text mt={8} mb={4} fontSize={"xl"}>
             LCR, or Left Center Right, is a multiplayer emulated version of the
             classic board game. It's a fun, fast-paced dice game that you won't
             be able to put down! Join other players from around the world and

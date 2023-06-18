@@ -107,19 +107,16 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({
     game.Players?.filter((player) => player.LobbyStatus).length || 0;
 
   return (
-    <Flex
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      p={8}
-      shadow="md"
-      borderWidth="1px"
+    <Box
+      w="90%"
+      maxW="800px"
+      m="auto"
+      p={5}
       borderRadius="md"
+      bg="gray.50"
+      boxShadow="md"
       textAlign={"center"}
-      width={["60%", "50%"]} // For responsive design
-      // height={['90%', '80%', '70%', '60%', '50%']}
-      mx="auto" // For centering horizontally
-      my="auto" // For centering vertically
+      justifyContent={"center"}
     >
       <Heading mb={4}>Game Waiting Room</Heading>
       <Text mb={2}>Lobby Code: {game.LobbyCode}</Text>
@@ -166,7 +163,7 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({
           )}
         </Box>
       ))}
-    </Flex>
+    </Box>
   );
 };
 
