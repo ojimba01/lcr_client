@@ -2,7 +2,7 @@ import {
   Box,
   Heading,
   Text,
-  List,
+  UnorderedList,
   ListItem,
   PopoverBody,
   PopoverHeader,
@@ -31,26 +31,41 @@ const HowToPlay = () => {
           bg="white"
           color="black"
           p={5}
-          maxW="lg" // This is to prevent the popover from being too wide
-          w="90%" // This is to make the popover responsive
+          maxW="md" // This is to prevent the popover from being too wide
+          w="80%" // This is to make the popover responsive
           mx="auto" // This is to center the popover
         >
           <PopoverCloseButton />
-          <PopoverHeader color="black">How to Play LCR Online</PopoverHeader>
+          <PopoverHeader color="black">
+            {" "}
+            <b>How to Play LCR Online</b>
+          </PopoverHeader>
           <PopoverBody>
             <Box>
               <Text mb={4}>
-                First, click on "Create a Game" to become the game host. You
-                will receive a unique lobby code, share this code with two of
-                your friends. They should enter this code in the "Lobby Code"
-                field and then join the game. Once all players have joined and
-                hit ready up, you can start the game by clicking "Start Game".
+                <UnorderedList spacing={2}>
+                  <ListItem>
+                    Click on "Create a Game" to become the game host.
+                  </ListItem>
+                  <ListItem>
+                    Send the lobby code to your friends so they can join your
+                    game.
+                  </ListItem>
+                  <ListItem>
+                    Once everyone has joined wait for everyone to click on the
+                    "Ready Up" button.
+                  </ListItem>
+                  <ListItem>
+                    If everyone is ready in the lobby anyone can start the game
+                    by clicking "Start Game".
+                  </ListItem>
+                </UnorderedList>
               </Text>
               <hr />
               <Heading pt={4} size="sm" mb={2}>
                 Rules
               </Heading>
-              <List spacing={2}>
+              <UnorderedList spacing={2}>
                 <ListItem>
                   Players take turns rolling three dice by clicking the "Roll
                   Dice" button.
@@ -67,10 +82,10 @@ const HowToPlay = () => {
                   A Center roll means a chip goes to the center pot.
                 </ListItem>
                 <ListItem>
-                  The game continues until one player has all the chips, who
-                  then becomes the winner.
+                  The game continues until everyone but one player has no chips.
+                  The last player with chips wins the game.
                 </ListItem>
-              </List>
+              </UnorderedList>
             </Box>
           </PopoverBody>
         </PopoverContent>

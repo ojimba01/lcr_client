@@ -41,10 +41,6 @@ function HowToPlayWrapper() {
   const auth = useAuth();
   const user = auth?.user; // Add a conditional check
 
-  const handleLogout = () => {
-    auth.logout();
-  };
-
   if (!user) {
     return null; // or render a loading spinner or a placeholder
   }
@@ -85,7 +81,6 @@ const Navigation: React.FC = () => {
           }}
           mr={3} // Add a right margin
         />
-
         <Link as={RouterLink} to="/" style={{ textDecoration: "none" }}>
           <Text
             fontSize="xl"

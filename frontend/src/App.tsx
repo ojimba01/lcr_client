@@ -24,6 +24,9 @@ import {
   Text,
   Box,
   Container,
+  List,
+  ListItem,
+  UnorderedList,
 } from "@chakra-ui/react";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { TitleHeader } from "./components/Title";
@@ -157,22 +160,27 @@ function AppContent() {
         height="55%"
         mx="auto" // For centering horizontally
       >
+        <TitleHeader />
+
         <Box
           shadow="md"
           borderWidth="1px"
           borderRadius="md"
+          mt={5}
           p={5}
           w="100%"
           textAlign="center"
         >
-          <Heading fontSize="4xl">Welcome to LCR Online!</Heading>
+          <Heading fontSize="3xl">Welcome to LCR Online!</Heading>
           <Text mt={8} fontSize={"xl"}>
-            LCR, or Left Center Right, is a fun, fast-paced dice game that you
-            won't be able to put down! Each game includes three LCR specialty
-            dice, 24 chips and instructions. Players roll the dice to determine
-            where they pass their chips. The last player with chips is the
-            winner and wins the center pot.
+            LCR, or Left Center Right, is a multiplayer emulated version of the
+            classic board game. It's a fun, fast-paced dice game that you won't
+            be able to put down! Join other players from around the world and
+            compete to see who's the best! If you're interested in learning more
+            about the project, you can check out the source code on GitHub by
+            clicking the title above this card component.
           </Text>
+
           <ButtonGroup variant="outline" spacing="6" mt={5}>
             <Button as={Link} to="/create" colorScheme="teal">
               Create Game
