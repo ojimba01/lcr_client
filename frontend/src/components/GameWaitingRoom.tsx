@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { ref, onValue, off, get, update } from 'firebase/database';
-import { auth } from '../firebase'; // import from separate file
-import { database } from '../firebase'; // import from separate file
-import { Game, Player } from './lcr'; // import from separate file
-import { lobbyReady, botLobbyReady } from '../api'; // import from separate file
-import { Box, Button, Heading, Text, Flex } from '@chakra-ui/react';
+import React, { useEffect, useState } from "react";
+import { ref, onValue, off, get, update } from "firebase/database";
+import { auth } from "../firebase"; // import from separate file
+import { database } from "../firebase"; // import from separate file
+import { Game, Player } from "./lcr"; // import from separate file
+import { lobbyReady, botLobbyReady } from "../api"; // import from separate file
+import { Box, Button, Heading, Text, Flex } from "@chakra-ui/react";
 
 interface GameWaitingRoomProps {
   gameID: string;
@@ -12,11 +12,15 @@ interface GameWaitingRoomProps {
   onGameStart: (lobbyCode: string) => void; // Add parameter here
 }
 
-const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, onGameStart }) => {
+const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({
+  gameID,
+  lobbyCode,
+  onGameStart,
+}) => {
   const [game, setGame] = useState<Game | null>(null);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  console.log('GameWaitingRoom', gameID, lobbyCode);
+  console.log("GameWaitingRoom", gameID, lobbyCode);
 
   useEffect(() => {
     const lobbyRef = ref(database, `games/${gameID}`);
@@ -28,7 +32,7 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
         setGame(initialGame);
         setLoading(false);
       } catch (err: any) {
-        console.error('Error fetching game:', err);
+        console.error("Error fetching game:", err);
         setLoading(false);
         setError(err.message);
       }
@@ -46,20 +50,22 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
     });
 
     return () => {
-      off(lobbyRef, 'value', registration); // Unsubscribe from the database updates when the component unmounts
+      off(lobbyRef, "value", registration); // Unsubscribe from the database updates when the component unmounts
     };
   }, [gameID, onGameStart]);
 
   const handleReadyUp = async (name: string) => {
     try {
       // Check if the bot is in the game
-      const botIsInGame = game.Players.some(player => player.UserID === '3XW4LgX0jMeo6mwTU9NrE0a2rYN2');
-  
+      const botIsInGame = game.Players.some(
+        (player) => player.UserID === "3XW4LgX0jMeo6mwTU9NrE0a2rYN2"
+      );
+
       // If the bot is in the game, set all players to ready. Otherwise, just set the current player to ready.
       if (botIsInGame) {
         await botLobbyReady(lobbyCode);
       } else {
-        console.log('Bot', gameID, lobbyCode, name);
+        console.log("Bot", gameID, lobbyCode, name);
       }
       try {
         await lobbyReady(game.LobbyCode, name);
@@ -71,8 +77,6 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
       setError(error.message);
     }
   };
-  
-  
 
   const handleGameStart = async () => {
     if (game?.Players?.every((player) => player.LobbyStatus)) {
@@ -83,7 +87,7 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
         setError(error.message);
       }
     } else {
-      setError('Not all players are ready yet');
+      setError("Not all players are ready yet");
     }
   };
 
@@ -99,7 +103,8 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
     return <Text>Game not found</Text>;
   }
 
-  const readyPlayersCount = game.Players?.filter((player) => player.LobbyStatus).length || 0;
+  const readyPlayersCount =
+    game.Players?.filter((player) => player.LobbyStatus).length || 0;
 
   return (
     <Flex
@@ -110,7 +115,8 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
       shadow="md"
       borderWidth="1px"
       borderRadius="md"
-      width={['90%', '80%', '70%', '60%', '50%']} // For responsive design
+      textAlign={"center"}
+      width={["60%", "50%"]} // For responsive design
       // height={['90%', '80%', '70%', '60%', '50%']}
       mx="auto" // For centering horizontally
       my="auto" // For centering vertically
@@ -118,11 +124,17 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
       <Heading mb={4}>Game Waiting Room</Heading>
       <Text mb={2}>Lobby Code: {game.LobbyCode}</Text>
       <Text mb={2}>Number of Players: {game.Players?.length || 0}</Text>
-      <Text mb={2}>Players Ready: {readyPlayersCount}/{game.Players?.length || 0}</Text>
+      <Text mb={2}>
+        Players Ready: {readyPlayersCount}/{game.Players?.length || 0}
+      </Text>
       {auth.currentUser?.uid && (
         <Button
           colorScheme="blue"
-          isDisabled={!game.Players || game.Players.length < 3 || !game.Players.every((player) => player.LobbyStatus)}
+          isDisabled={
+            !game.Players ||
+            game.Players.length < 3 ||
+            !game.Players.every((player) => player.LobbyStatus)
+          }
           onClick={handleGameStart}
           mt={4}
         >
@@ -130,10 +142,27 @@ const GameWaitingRoom: React.FC<GameWaitingRoomProps> = ({ gameID, lobbyCode, on
         </Button>
       )}
       {game.Players?.map((player: Player) => (
-        <Box key={player.Name} p={1} shadow="md" borderWidth="1px" borderRadius="md" w="100%" mt={4}>
-          <Text>{player.Name}: {player.LobbyStatus ? 'Ready' : 'Not Ready'}</Text>
+        <Box
+          key={player.Name}
+          p={1}
+          shadow="md"
+          borderWidth="1px"
+          borderRadius="md"
+          textAlign={"center"}
+          mt={4}
+          mx="auto" // Center the player boxes
+        >
+          <Text>
+            {player.Name}: {player.LobbyStatus ? "Ready" : "Not Ready"}
+          </Text>
           {player.UserID === auth.currentUser?.uid && !player.LobbyStatus && (
-            <Button colorScheme="green" onClick={() => handleReadyUp(player.Name)} mt={2}>Ready Up</Button>
+            <Button
+              colorScheme="green"
+              onClick={() => handleReadyUp(player.Name)}
+              mt={2}
+            >
+              Ready Up
+            </Button>
           )}
         </Box>
       ))}

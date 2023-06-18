@@ -106,7 +106,9 @@ const Login: React.FC = () => {
       borderRadius="md"
       boxShadow="md"
     >
-      <Heading textAlign="center">Login</Heading>
+      <Heading pb={4} textAlign="center">
+        Login
+      </Heading>
       <form>
         <FormControl mb={4}>
           <InputGroup>

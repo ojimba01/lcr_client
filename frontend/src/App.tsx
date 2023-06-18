@@ -108,7 +108,16 @@ function AppContent() {
       }
     };
 
-    return <CreateGame onGameCreated={onGameCreated} />;
+    return (
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        height="65vh" // This will make sure the container takes the full height of the viewport
+      >
+        <CreateGame onGameCreated={onGameCreated} />;
+      </Flex>
+    );
   };
 
   const DemoGameWrapper = () => {
@@ -120,7 +129,16 @@ function AppContent() {
       }
     };
 
-    return <Demo onGameCreated={onGameCreated} />;
+    return (
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        height="65vh" // This will make sure the container takes the full height of the viewport
+      >
+        <Demo onGameCreated={onGameCreated} />
+      </Flex>
+    );
   };
 
   const JoinGameWrapper = () => {
@@ -131,8 +149,18 @@ function AppContent() {
       }
     };
 
-    return <JoinGame onGameJoined={onGameJoined} />;
+    return (
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        height="65vh" // This will make sure the container takes the full height of the viewport
+      >
+        <JoinGame onGameJoined={onGameJoined} />
+      </Flex>
+    );
   };
+
   const LoginWrapper = () => {
     const { user } = useAuth();
     const navigate = useNavigate();

@@ -115,6 +115,8 @@ const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
       borderRadius="md"
       bg="gray.50"
       boxShadow="md"
+      textAlign={"center"}
+      justifyContent={"center"}
     >
       <Text fontSize="2xl" fontWeight="bold" color="gray.700">
         Game Screen
