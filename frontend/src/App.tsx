@@ -68,11 +68,18 @@ function AppContent() {
     };
 
     return (
-      <GameWaitingRoom
-        gameID={gameID}
-        lobbyCode={lobbyCode}
-        onGameStart={onGameStart}
-      />
+      <Box
+        display="flex"
+        height="75vh" // This will make sure the container takes the full height of the viewport
+        w="90%"
+        maxW="800px"
+      >
+        <GameWaitingRoom
+          gameID={gameID}
+          lobbyCode={lobbyCode}
+          onGameStart={onGameStart}
+        />
+      </Box>
     );
   };
 
@@ -96,7 +103,16 @@ function AppContent() {
       );
     }
 
-    return <GameScreen gameID={gameID} lobbyCode={lobbyCode} />;
+    return (
+      <Box
+        display="flex"
+        height="75vh" // This will make sure the container takes the full height of the viewport
+        w="90%"
+        maxW="800px"
+      >
+        <GameScreen gameID={gameID} lobbyCode={lobbyCode} />
+      </Box>
+    );
   };
 
   const CreateGameWrapper = () => {
@@ -113,6 +129,7 @@ function AppContent() {
         direction="column"
         alignItems="center"
         justifyContent="center"
+        textAlign={"center"}
         height="65vh" // This will make sure the container takes the full height of the viewport
       >
         <CreateGame onGameCreated={onGameCreated} />;
@@ -134,6 +151,7 @@ function AppContent() {
         direction="column"
         alignItems="center"
         justifyContent="center"
+        textAlign={"center"}
         height="65vh" // This will make sure the container takes the full height of the viewport
       >
         <Demo onGameCreated={onGameCreated} />
@@ -154,6 +172,7 @@ function AppContent() {
         direction="column"
         alignItems="center"
         justifyContent="center"
+        textAlign={"center"}
         height="65vh" // This will make sure the container takes the full height of the viewport
       >
         <JoinGame onGameJoined={onGameJoined} />
@@ -195,6 +214,7 @@ function AppContent() {
         direction="column"
         alignItems="center"
         justifyContent="center"
+        textAlign={"center"}
         mt={-5}
         width={["90%", "80%", "70%", "60%", "50%"]} // For responsive design
         height="70%"

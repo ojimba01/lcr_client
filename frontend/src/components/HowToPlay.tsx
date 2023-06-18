@@ -42,25 +42,24 @@ const HowToPlay = () => {
           </PopoverHeader>
           <PopoverBody>
             <Box>
-              <Text mb={4}>
-                <UnorderedList spacing={2}>
-                  <ListItem>
-                    Click on "Create a Game" to become the game host.
-                  </ListItem>
-                  <ListItem>
-                    Send the lobby code to your friends so they can join your
-                    game.
-                  </ListItem>
-                  <ListItem>
-                    Once everyone has joined wait for everyone to click on the
-                    "Ready Up" button.
-                  </ListItem>
-                  <ListItem>
-                    If everyone is ready in the lobby anyone can start the game
-                    by clicking "Start Game".
-                  </ListItem>
-                </UnorderedList>
-              </Text>
+              <UnorderedList spacing={2}>
+                <ListItem>
+                  Click on "Create a Game" to become the game host.
+                </ListItem>
+                <ListItem>
+                  Send the lobby code to your friends so they can join your
+                  game.
+                </ListItem>
+                <ListItem>
+                  Once everyone has joined wait for everyone to click on the
+                  "Ready Up" button.
+                </ListItem>
+                <ListItem>
+                  If everyone is ready in the lobby anyone can start the game by
+                  clicking "Start Game".
+                </ListItem>
+              </UnorderedList>
+
               <hr />
               <Heading pt={4} size="sm" mb={2}>
                 Rules

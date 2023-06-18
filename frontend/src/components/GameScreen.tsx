@@ -118,10 +118,10 @@ const GameScreen: React.FC<GameScreenProps> = ({ lobbyCode, gameID }) => {
       textAlign={"center"}
       justifyContent={"center"}
     >
-      <Text fontSize="2xl" fontWeight="bold" color="gray.700">
+      <Text fontSize="2xl" fontWeight="bold" color="gray.700" pb={5}>
         Game Screen
       </Text>
-      <Text fontSize="lg" color="gray.600">
+      <Text fontSize="lg" fontWeight="bold" color="gray.600" pb={2}>
         Pot: {game.Pot}
       </Text>
       {game.Winner && (
