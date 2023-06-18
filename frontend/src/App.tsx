@@ -24,9 +24,7 @@ import {
   Text,
   Box,
   Container,
-  List,
-  ListItem,
-  UnorderedList,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { TitleHeader } from "./components/Title";
@@ -54,6 +52,7 @@ function App() {
 
 function AppContent() {
   const { user } = useAuth();
+  const isMobileView = useMediaQuery("(max-width: 768px)");
   const GameWaitingRoomWrapper = () => {
     const { gameID, lobbyCode } = useParams();
     const navigate = useNavigate();
@@ -131,9 +130,13 @@ function AppContent() {
   const LoginWrapper = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
-    if (user) {
-      navigate("/");
-    }
+
+    useEffect(() => {
+      if (user) {
+        navigate("/");
+      }
+    }, [user, navigate]);
+
     return (
       <>
         <TitleHeader />
@@ -214,6 +217,7 @@ function AppContent() {
         width={["100vw", null]}
         height={["100vh", null]}
         p={2}
+        pt={isMobileView ? "4rem" : 0}
       >
         <Routes>
           <Route path="/" element={<HomeWrapper />} />

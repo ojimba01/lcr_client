@@ -6,6 +6,7 @@ import {
   Link,
   Text,
   useDisclosure,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useAuth } from "./AuthProvider";
@@ -60,10 +61,8 @@ const Navigation: React.FC = () => {
       justify="space-between"
       padding=".5rem"
       position="fixed"
-      top="0"
       w="100vw"
       zIndex="1"
-      mb={4}
     >
       <Flex>
         <IconButton
