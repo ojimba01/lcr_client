@@ -187,7 +187,7 @@ function AppContent() {
   const HomeWrapper = () => {
     const { user } = useAuth();
     if (!user) {
-      // simply redirect to login page
+      // edirect to login page
       return <LoginWrapper />;
     }
     return (
@@ -195,7 +195,7 @@ function AppContent() {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        p={5}
+        mt={-5}
         width={["90%", "80%", "70%", "60%", "50%"]} // For responsive design
         height="70%"
         mx="auto" // For centering horizontally
@@ -208,7 +208,7 @@ function AppContent() {
           shadow="md"
           borderWidth="1px"
           borderRadius="md"
-          mt={8}
+          mt={10}
           p={5}
           w="100%"
           textAlign="center"
